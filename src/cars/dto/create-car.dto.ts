@@ -1,6 +1,8 @@
 import { IsString, IsNotEmpty, IsNumber, IsUrl, Min } from 'class-validator';
 
-export class CreateCarDto {
+import { CarInterface } from '../car.interface';
+
+export class CreateCarDto implements CarInterface {
   @IsString()
   @IsNotEmpty()
   readonly model: string;

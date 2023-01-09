@@ -1,10 +1,11 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument } from 'mongoose';
 
+import { CarInterface } from '../car.interface';
 export type CarDocument = HydratedDocument<Car>;
 
 @Schema()
-export class Car {
+export class Car implements CarInterface {
   @Prop()
   model: string;
   @Prop()
