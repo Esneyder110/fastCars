@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 
@@ -10,24 +10,33 @@ import { Car, CarDocument } from './entities/car.entity';
 export class CarsService {
   constructor(@InjectModel(Car.name) private carModel: Model<CarDocument>) {}
   async create(createCarDto: CreateCarDto) {
-    // const newCar = new this.carModel(createCarDto);
-    // return await newCar.save();
-    return 'This action adds a new car';
+    const newCar = new this.carModel(createCarDto);
+    return await newCar.save();
   }
 
-  findAll() {
-    return `This action returns all cars`;
+  async findAll() {
+    return await this.carModel.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} car`;
+  async findOne(id: string) {
+    const car = await this.carModel.findOne({ _id: id });
+    if (!car) throw new NotFoundException(`Car with id #${id} not found`);
+    return car;
   }
 
-  update(id: number, updateCarDto: UpdateCarDto) {
-    return `This action updates a #${id} car`;
+  async update(id: string, updateCarDto: UpdateCarDto) {
+    const car = await this.carModel.findByIdAndUpdate(
+      id,
+      { $set: updateCarDto },
+      { new: true },
+    );
+    if (!car) throw new NotFoundException(`Car with id #${id} not found`);
+    return car;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} car`;
+  async remove(id: string) {
+    const car = await this.carModel.findByIdAndDelete(id);
+    if (!car) throw new NotFoundException(`Car with id #${id} not found`);
+    return car;
   }
 }
