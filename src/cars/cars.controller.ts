@@ -6,9 +6,7 @@ import {
   Patch,
   Param,
   Delete,
-  ParseUUIDPipe,
 } from '@nestjs/common';
-// import { IsMongoId } from 'class-validator';
 
 import { CarsService } from './cars.service';
 import { CreateCarDto } from './dto/create-car.dto';
