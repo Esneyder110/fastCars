@@ -23,13 +23,19 @@ export class UsersController {
   }
 
   @Get()
-  findAll() {
-    return this.usersService.findAll();
+  async findAll() {
+    const users = await this.usersService.findAll();
+    return users.map((user) => {
+      const { password, ...result } = user;
+      return result;
+    });
   }
 
   @Get(':id')
-  findOne(@Param('id', MongoIdPipe) id: string) {
-    return this.usersService.findOne(id);
+  async findOne(@Param('id', MongoIdPipe) id: string) {
+    const user = await this.usersService.findOne(id);
+    const { password, ...result } = user;
+    return result;
   }
 
   @Patch(':id')
