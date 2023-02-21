@@ -16,17 +16,17 @@ export class UsersService {
   }
 
   async findAll(): Promise<User[]> {
-    return await this.userModel.find();
+    return await this.userModel.find().lean();
   }
 
   async findOne(id: string): Promise<User> {
-    const user = await this.userModel.findOne({ _id: id });
+    const user = await this.userModel.findOne({ _id: id }).lean();
     if (!user) throw new NotFoundException(`User with id #${id} not found`);
     return user;
   }
 
   async findOneByEmail(email: string): Promise<User> {
-    const user = await this.userModel.findOne({ email: email });
+    const user = await this.userModel.findOne({ email: email }).lean();
     if (!user)
       throw new NotFoundException(`User with email ${email} not found`);
     return user;
