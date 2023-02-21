@@ -13,7 +13,7 @@ export class User implements UserInterface {
   @Prop({ required: true })
   name: string;
 
-  @Prop({ required: true, select: false })
+  @Prop({ required: true })
   password: string;
 
   @Prop({ required: true })
