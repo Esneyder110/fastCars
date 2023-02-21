@@ -10,29 +10,29 @@ import { User, UserDocument } from './entities/user.entity';
 export class UsersService {
   constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) {}
 
-  async create(createUserDto: CreateUserDto) {
+  async create(createUserDto: CreateUserDto): Promise<User> {
     const newUser = new this.userModel(createUserDto);
     return await newUser.save();
   }
 
-  async findAll() {
+  async findAll(): Promise<User[]> {
     return await this.userModel.find();
   }
 
-  async findOne(id: string) {
+  async findOne(id: string): Promise<User> {
     const user = await this.userModel.findOne({ _id: id });
     if (!user) throw new NotFoundException(`User with id #${id} not found`);
     return user;
   }
 
-  async findOneByEmail(email: string) {
+  async findOneByEmail(email: string): Promise<User> {
     const user = await this.userModel.findOne({ email: email });
     if (!user)
       throw new NotFoundException(`User with email ${email} not found`);
     return user;
   }
 
-  async update(id: string, updateUserDto: UpdateUserDto) {
+  async update(id: string, updateUserDto: UpdateUserDto): Promise<User> {
     const user = await this.userModel.findByIdAndUpdate(
       id,
       { $set: updateUserDto },
@@ -42,7 +42,7 @@ export class UsersService {
     return user;
   }
 
-  async remove(id: string) {
+  async remove(id: string): Promise<User> {
     const user = await this.userModel.findByIdAndDelete(id);
     if (!user) throw new NotFoundException(`User with id #${id} not found`);
     return user;
