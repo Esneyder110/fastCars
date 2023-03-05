@@ -12,6 +12,7 @@ import { CarsService } from './cars.service';
 import { CreateCarDto } from './dto/create-car.dto';
 import { UpdateCarDto } from './dto/update-car.dto';
 import { MongoIdPipe } from 'src/pipes/mongo-id/mongo-id.pipe';
+import { Public } from 'src/auth/decorators/public/public.decorator';
 
 @Controller('cars')
 export class CarsController {
@@ -22,11 +23,13 @@ export class CarsController {
     return this.carsService.create(createCarDto);
   }
 
+  @Public()
   @Get()
   findAll() {
     return this.carsService.findAll();
   }
 
+  @Public()
   @Get(':id')
   findOne(@Param('id', MongoIdPipe) id: string) {
     return this.carsService.findOne(id);
